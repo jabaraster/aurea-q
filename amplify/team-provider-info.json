@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-aureaq-dev-145506-authRole",
+      "UnauthRoleArn": "arn:aws:iam::195957709288:role/amplify-aureaq-dev-145506-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::195957709288:role/amplify-aureaq-dev-145506-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-aureaq-dev-145506-deployment",
+      "UnauthRoleName": "amplify-aureaq-dev-145506-unauthRole",
+      "StackName": "amplify-aureaq-dev-145506",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:195957709288:stack/amplify-aureaq-dev-145506/e8bbba60-5f55-11ee-ad28-06a2287a034d",
+      "AmplifyAppId": "d92lew947owff"
+    },
+    "categories": {
+      "auth": {
+        "aureaq45c04eca": {}
+      },
+      "api": {
+        "aureaq": {}
+      }
+    }
+  }
+}

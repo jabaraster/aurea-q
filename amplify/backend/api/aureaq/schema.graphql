@@ -1,0 +1,5 @@
+type Question @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [create, update, delete]}]) {
+  id: ID!
+  text: String!
+  contributorId: String!
+}
