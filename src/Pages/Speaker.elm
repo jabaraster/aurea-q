@@ -1,8 +1,8 @@
 module Pages.Speaker exposing (Model, Msg, page)
 
-import Css exposing (..)
 import Api exposing (PagingList, PublicAccessParam, Question, RemoteResource)
 import Api.Scalar exposing (AWSDateTime(..), Id(..))
+import Css exposing (..)
 import Domain exposing (AppConfig)
 import Gen.Params.Speaker exposing (Params)
 import Html.Styled exposing (..)
@@ -170,4 +170,3 @@ viewQuestion q =
             ]
         ]
         [ text q.text ]
-
