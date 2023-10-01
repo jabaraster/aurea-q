@@ -1,9 +1,9 @@
 module Views exposing (..)
 
-import Css.Global
 import Bulma.Classes as B
 import Bulma.Helpers
 import Css exposing (..)
+import Css.Global
 import Gen.Route exposing (Route(..))
 import Html
 import Html.Styled as H

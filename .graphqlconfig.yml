@@ -1,0 +1,18 @@
+projects:
+  aureaq:
+    schemaPath: amplify/backend/api/aureaq/build/schema.graphql
+    includes:
+      - src/graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: src/ts/api.ts
+        docsFilePath: src/graphql
+        region: ap-northeast-1
+        apiId: null
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

@@ -7,6 +7,7 @@ import Api.Object.ModelQuestionConnection
 import Api.Object.Question
 import Api.Query
 import Api.Scalar exposing (AWSDateTime, Id)
+import Api.Subscription
 import Domain
 import Graphql.Http exposing (Request, mutationRequest, queryRequest, send, withHeader)
 import Graphql.Operation exposing (RootMutation, RootQuery)
@@ -100,10 +101,9 @@ listAllQuestions param pagingParam handler =
                     | limit = Present pagingParam.limit
                     , nextToken = Maybe.withDefault Null <| Maybe.map Present pagingParam.nextToken
                 }
-
-            
     in
     sendListQuery param handler <| listQuestionsQuery filter
+
 
 listQuestions :
     PublicAccessParam
@@ -128,19 +128,21 @@ listQuestions param pagingParam contributorId handler =
                                     }
                                 )
                 }
-
     in
-    sendListQuery param handler<| listQuestionsQuery filter
+    sendListQuery param handler <| listQuestionsQuery filter
+
 
 listQuestionsQuery :
     (Api.Query.ListQuestionsOptionalArguments -> Api.Query.ListQuestionsOptionalArguments)
     -> SelectionSet (Maybe (PagingListResponse Question)) RootQuery
-listQuestionsQuery filter = Api.Query.listQuestions
-                filter
-                (SelectionSet.succeed PagingListResponse
-                    |> with Api.Object.ModelQuestionConnection.nextToken
-                    |> with (Api.Object.ModelQuestionConnection.items questionSelection)
-                )
+listQuestionsQuery filter =
+    Api.Query.listQuestions
+        filter
+        (SelectionSet.succeed PagingListResponse
+            |> with Api.Object.ModelQuestionConnection.nextToken
+            |> with (Api.Object.ModelQuestionConnection.items questionSelection)
+        )
+
 
 createQuestion :
     PublicAccessParam
@@ -160,6 +162,13 @@ createQuestion param input handler =
         }
         questionSelection
         |> sendMutation param handler
+
+
+onCreateQuestion : SelectionSet (Maybe Question) Graphql.Operation.RootSubscription
+onCreateQuestion =
+    Api.Subscription.onCreateQuestion
+        (\opt -> opt)
+        questionSelection
 
 
 questionSelection : SelectionSet Question Api.Object.Question

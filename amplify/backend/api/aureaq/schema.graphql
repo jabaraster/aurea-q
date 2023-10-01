@@ -3,5 +3,7 @@ type Question @model @auth(rules: [{allow: public}]) {
   text: String!
   contributorId: String!
   contributionDatetime: AWSDateTime!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
  

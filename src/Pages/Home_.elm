@@ -6,7 +6,7 @@ import Bulma.Classes as B
 import Css exposing (..)
 import Domain exposing (AppConfig)
 import Gen.Params.Home_ exposing (Params)
-import Html.Styled as H exposing (Html, h1, h2, hr, li, p, text, textarea, ul)
+import Html.Styled as H exposing (Html, h1, h2, hr, li, p, text, textarea, th, ul)
 import Html.Styled.Attributes as A exposing (..)
 import Html.Styled.Events as H exposing (..)
 import Html.Styled.Lazy as H exposing (lazy)
@@ -112,9 +112,13 @@ update msg model =
             ( { model | questionText = s }, Cmd.none )
 
         ClickedSend ->
-            ( { model | inProgress = True }
-            , Task.perform GotNow <| Task.map2 Tuple.pair Time.here Time.now
-            )
+            if String.trim model.questionText == "" then
+                ( model, Cmd.none )
+
+            else
+                ( { model | inProgress = True }
+                , Task.perform GotNow <| Task.map2 Tuple.pair Time.here Time.now
+                )
 
         GotNow ( _, d ) ->
             ( model
@@ -187,6 +191,7 @@ viewCore : Model -> List (Html Msg)
 viewCore model =
     [ h1 [] [ text "スピーカーに聞きたいことをどうぞ！" ]
     , p [] [ text "ここから聞けばスピーカーにあなたの名前は伝わりませんので、気軽に聞いてくださいね。" ]
+    , p [] [ text "ただ、時間の関係や問いの中身によっては、この場で全部答えられるとは限りません。そうなった時はごめんなさい。" ]
     , H.form [ css [ margin (px 10) ] ]
         [ textarea
             [ class B.input

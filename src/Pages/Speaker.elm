@@ -1,11 +1,15 @@
 module Pages.Speaker exposing (Model, Msg, page)
 
+import Css exposing (..)
 import Api exposing (PagingList, PublicAccessParam, Question, RemoteResource)
 import Api.Scalar exposing (AWSDateTime(..), Id(..))
 import Domain exposing (AppConfig)
 import Gen.Params.Speaker exposing (Params)
 import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (css)
+import Json.Decode exposing (Value, andThen, field, string, succeed)
 import Page
+import Ports
 import RemoteData exposing (RemoteData(..))
 import Request
 import Shared
@@ -20,7 +24,7 @@ page shared _ =
             { init = init shared
             , update = update
             , view = view
-            , subscriptions = \_ -> Sub.none
+            , subscriptions = subscriptions
             }
 
 
@@ -56,16 +60,13 @@ init shared =
 
 
 type Msg
-    = ReplaceMe
-    | LoadedQuestions (RemoteResource (PagingList Question))
+    = LoadedQuestions (RemoteResource (PagingList Question))
+    | OnCreateQuestion Value
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ReplaceMe ->
-            ( model, Cmd.none )
-
         LoadedQuestions (Success pagingList) ->
             let
                 newList =
@@ -86,10 +87,33 @@ update msg model =
         LoadedQuestions _ ->
             fail model
 
+        OnCreateQuestion val ->
+            case decodeQuestion val of
+                Ok q ->
+                    ( { model | questionList = q :: model.questionList }, Cmd.none )
+
+                Err _ ->
+                    fail model
+
 
 fail : Model -> ( Model, Cmd Msg )
 fail model =
     ( model, Cmd.none )
+
+
+decodeQuestion : Value -> Result Json.Decode.Error Question
+decodeQuestion =
+    Json.Decode.decodeValue
+        questionDecoder
+
+
+questionDecoder : Json.Decode.Decoder Question
+questionDecoder =
+    Json.Decode.map4 Question
+        (field "id" (andThen (succeed << Id) string))
+        (field "text" string)
+        (field "contributorId" string)
+        (field "contributionDatetime" (andThen (succeed << AWSDateTime) string))
 
 
 toPublicAccessParam : AppConfig -> PublicAccessParam
@@ -113,8 +137,8 @@ sortQuestions =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
+subscriptions _ =
+    Ports.onCreateQuestion OnCreateQuestion
 
 
 
@@ -139,4 +163,11 @@ viewCore model =
 
 viewQuestion : Question -> Html Msg
 viewQuestion q =
-    li [] [ text q.text ]
+    li
+        [ css
+            [ borderBottom3 (px 1) solid (rgba 130 130 130 0.5)
+            , marginBottom (px 5)
+            ]
+        ]
+        [ text q.text ]
+
