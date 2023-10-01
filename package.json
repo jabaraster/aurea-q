@@ -5,16 +5,20 @@
   "scripts": {
     "build": "npx elm-spa gen && npx parcel build src/index.html --detailed-report --log-level verbose",
     "format": "npx tsfmt src/*.ts -r & npx elm-format --yes src/",
-    "dev": "npx parcel src/index.html --port 3333 --log-level verbose"
+    "dev": "npx elm-spa gen && npx parcel src/index.html --port 3333 --log-level verbose"
   },
   "devDependencies": {
     "@dillonkearns/elm-graphql": "^4.3.1",
+    "aws-amplify": "^5.3.11",
+    "buffer": "^5.5.0||^6.0.0",
     "elm-format": "^0.8.7",
     "elm-spa": "^6.0.4",
     "parcel": "^2.9.3",
+    "punycode": "^1.4.1",
     "typescript-formatter": "^7.2.2"
   },
   "dependencies": {
-    "bulma": "^0.9.4"
+    "bulma": "^0.9.4",
+    "uuid": "^9.0.1"
   }
 }

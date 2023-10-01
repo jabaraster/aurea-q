@@ -1,5 +1,7 @@
-type Question @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [create, update, delete]}]) {
+type Question @model @auth(rules: [{allow: public}]) {
   id: ID!
   text: String!
   contributorId: String!
+  contributionDatetime: AWSDateTime!
 }
+ 

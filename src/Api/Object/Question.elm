@@ -34,6 +34,11 @@ contributorId =
     Object.selectionForField "String" "contributorId" [] Decode.string
 
 
+contributionDatetime : SelectionSet Api.ScalarCodecs.AWSDateTime Api.Object.Question
+contributionDatetime =
+    Object.selectionForField "ScalarCodecs.AWSDateTime" "contributionDatetime" [] (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecAWSDateTime |> .decoder)
+
+
 createdAt : SelectionSet Api.ScalarCodecs.AWSDateTime Api.Object.Question
 createdAt =
     Object.selectionForField "ScalarCodecs.AWSDateTime" "createdAt" [] (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecAWSDateTime |> .decoder)

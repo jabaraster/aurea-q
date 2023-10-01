@@ -28,12 +28,13 @@ buildCreateQuestionInput required____ fillOptionals____ =
             fillOptionals____
                 { id = Absent }
     in
-    { id = optionals____.id, text = required____.text, contributorId = required____.contributorId }
+    { id = optionals____.id, text = required____.text, contributorId = required____.contributorId, contributionDatetime = required____.contributionDatetime }
 
 
 type alias CreateQuestionInputRequiredFields =
     { text : String
     , contributorId : String
+    , contributionDatetime : Api.ScalarCodecs.AWSDateTime
     }
 
 
@@ -47,6 +48,7 @@ type alias CreateQuestionInput =
     { id : OptionalArgument Api.ScalarCodecs.Id
     , text : String
     , contributorId : String
+    , contributionDatetime : Api.ScalarCodecs.AWSDateTime
     }
 
 
@@ -55,7 +57,7 @@ type alias CreateQuestionInput =
 encodeCreateQuestionInput : CreateQuestionInput -> Value
 encodeCreateQuestionInput input____ =
     Encode.maybeObject
-        [ ( "id", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "text", Encode.string input____.text |> Just ), ( "contributorId", Encode.string input____.contributorId |> Just ) ]
+        [ ( "id", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) |> Encode.optional input____.id ), ( "text", Encode.string input____.text |> Just ), ( "contributorId", Encode.string input____.contributorId |> Just ), ( "contributionDatetime", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecAWSDateTime) input____.contributionDatetime |> Just ) ]
 
 
 buildDeleteQuestionInput :
@@ -280,14 +282,15 @@ buildModelQuestionConditionInput fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { text = Absent, contributorId = Absent, and = Absent, or = Absent, not = Absent }
+                { text = Absent, contributorId = Absent, contributionDatetime = Absent, and = Absent, or = Absent, not = Absent }
     in
-    ModelQuestionConditionInput { text = optionals____.text, contributorId = optionals____.contributorId, and = optionals____.and, or = optionals____.or, not = optionals____.not }
+    ModelQuestionConditionInput { text = optionals____.text, contributorId = optionals____.contributorId, contributionDatetime = optionals____.contributionDatetime, and = optionals____.and, or = optionals____.or, not = optionals____.not }
 
 
 type alias ModelQuestionConditionInputOptionalFields =
     { text : OptionalArgument ModelStringInput
     , contributorId : OptionalArgument ModelStringInput
+    , contributionDatetime : OptionalArgument ModelStringInput
     , and : OptionalArgument (List (Maybe ModelQuestionConditionInput))
     , or : OptionalArgument (List (Maybe ModelQuestionConditionInput))
     , not : OptionalArgument ModelQuestionConditionInput
@@ -302,6 +305,7 @@ references to itself either directly (recursive) or indirectly (circular). See
 type alias ModelQuestionConditionInputRaw =
     { text : OptionalArgument ModelStringInput
     , contributorId : OptionalArgument ModelStringInput
+    , contributionDatetime : OptionalArgument ModelStringInput
     , and : OptionalArgument (List (Maybe ModelQuestionConditionInput))
     , or : OptionalArgument (List (Maybe ModelQuestionConditionInput))
     , not : OptionalArgument ModelQuestionConditionInput
@@ -319,7 +323,7 @@ type ModelQuestionConditionInput
 encodeModelQuestionConditionInput : ModelQuestionConditionInput -> Value
 encodeModelQuestionConditionInput (ModelQuestionConditionInput input____) =
     Encode.maybeObject
-        [ ( "text", encodeModelStringInput |> Encode.optional input____.text ), ( "contributorId", encodeModelStringInput |> Encode.optional input____.contributorId ), ( "and", (encodeModelQuestionConditionInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeModelQuestionConditionInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeModelQuestionConditionInput |> Encode.optional input____.not ) ]
+        [ ( "text", encodeModelStringInput |> Encode.optional input____.text ), ( "contributorId", encodeModelStringInput |> Encode.optional input____.contributorId ), ( "contributionDatetime", encodeModelStringInput |> Encode.optional input____.contributionDatetime ), ( "and", (encodeModelQuestionConditionInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeModelQuestionConditionInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeModelQuestionConditionInput |> Encode.optional input____.not ) ]
 
 
 buildModelQuestionFilterInput :
@@ -329,15 +333,16 @@ buildModelQuestionFilterInput fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { id = Absent, text = Absent, contributorId = Absent, and = Absent, or = Absent, not = Absent }
+                { id = Absent, text = Absent, contributorId = Absent, contributionDatetime = Absent, and = Absent, or = Absent, not = Absent }
     in
-    ModelQuestionFilterInput { id = optionals____.id, text = optionals____.text, contributorId = optionals____.contributorId, and = optionals____.and, or = optionals____.or, not = optionals____.not }
+    ModelQuestionFilterInput { id = optionals____.id, text = optionals____.text, contributorId = optionals____.contributorId, contributionDatetime = optionals____.contributionDatetime, and = optionals____.and, or = optionals____.or, not = optionals____.not }
 
 
 type alias ModelQuestionFilterInputOptionalFields =
     { id : OptionalArgument ModelIDInput
     , text : OptionalArgument ModelStringInput
     , contributorId : OptionalArgument ModelStringInput
+    , contributionDatetime : OptionalArgument ModelStringInput
     , and : OptionalArgument (List (Maybe ModelQuestionFilterInput))
     , or : OptionalArgument (List (Maybe ModelQuestionFilterInput))
     , not : OptionalArgument ModelQuestionFilterInput
@@ -353,6 +358,7 @@ type alias ModelQuestionFilterInputRaw =
     { id : OptionalArgument ModelIDInput
     , text : OptionalArgument ModelStringInput
     , contributorId : OptionalArgument ModelStringInput
+    , contributionDatetime : OptionalArgument ModelStringInput
     , and : OptionalArgument (List (Maybe ModelQuestionFilterInput))
     , or : OptionalArgument (List (Maybe ModelQuestionFilterInput))
     , not : OptionalArgument ModelQuestionFilterInput
@@ -370,7 +376,7 @@ type ModelQuestionFilterInput
 encodeModelQuestionFilterInput : ModelQuestionFilterInput -> Value
 encodeModelQuestionFilterInput (ModelQuestionFilterInput input____) =
     Encode.maybeObject
-        [ ( "id", encodeModelIDInput |> Encode.optional input____.id ), ( "text", encodeModelStringInput |> Encode.optional input____.text ), ( "contributorId", encodeModelStringInput |> Encode.optional input____.contributorId ), ( "and", (encodeModelQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeModelQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeModelQuestionFilterInput |> Encode.optional input____.not ) ]
+        [ ( "id", encodeModelIDInput |> Encode.optional input____.id ), ( "text", encodeModelStringInput |> Encode.optional input____.text ), ( "contributorId", encodeModelStringInput |> Encode.optional input____.contributorId ), ( "contributionDatetime", encodeModelStringInput |> Encode.optional input____.contributionDatetime ), ( "and", (encodeModelQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeModelQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ), ( "not", encodeModelQuestionFilterInput |> Encode.optional input____.not ) ]
 
 
 buildModelSizeInput :
@@ -664,15 +670,16 @@ buildModelSubscriptionQuestionFilterInput fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { id = Absent, text = Absent, contributorId = Absent, and = Absent, or = Absent }
+                { id = Absent, text = Absent, contributorId = Absent, contributionDatetime = Absent, and = Absent, or = Absent }
     in
-    ModelSubscriptionQuestionFilterInput { id = optionals____.id, text = optionals____.text, contributorId = optionals____.contributorId, and = optionals____.and, or = optionals____.or }
+    ModelSubscriptionQuestionFilterInput { id = optionals____.id, text = optionals____.text, contributorId = optionals____.contributorId, contributionDatetime = optionals____.contributionDatetime, and = optionals____.and, or = optionals____.or }
 
 
 type alias ModelSubscriptionQuestionFilterInputOptionalFields =
     { id : OptionalArgument ModelSubscriptionIDInput
     , text : OptionalArgument ModelSubscriptionStringInput
     , contributorId : OptionalArgument ModelSubscriptionStringInput
+    , contributionDatetime : OptionalArgument ModelSubscriptionStringInput
     , and : OptionalArgument (List (Maybe ModelSubscriptionQuestionFilterInput))
     , or : OptionalArgument (List (Maybe ModelSubscriptionQuestionFilterInput))
     }
@@ -687,6 +694,7 @@ type alias ModelSubscriptionQuestionFilterInputRaw =
     { id : OptionalArgument ModelSubscriptionIDInput
     , text : OptionalArgument ModelSubscriptionStringInput
     , contributorId : OptionalArgument ModelSubscriptionStringInput
+    , contributionDatetime : OptionalArgument ModelSubscriptionStringInput
     , and : OptionalArgument (List (Maybe ModelSubscriptionQuestionFilterInput))
     , or : OptionalArgument (List (Maybe ModelSubscriptionQuestionFilterInput))
     }
@@ -703,7 +711,7 @@ type ModelSubscriptionQuestionFilterInput
 encodeModelSubscriptionQuestionFilterInput : ModelSubscriptionQuestionFilterInput -> Value
 encodeModelSubscriptionQuestionFilterInput (ModelSubscriptionQuestionFilterInput input____) =
     Encode.maybeObject
-        [ ( "id", encodeModelSubscriptionIDInput |> Encode.optional input____.id ), ( "text", encodeModelSubscriptionStringInput |> Encode.optional input____.text ), ( "contributorId", encodeModelSubscriptionStringInput |> Encode.optional input____.contributorId ), ( "and", (encodeModelSubscriptionQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeModelSubscriptionQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ) ]
+        [ ( "id", encodeModelSubscriptionIDInput |> Encode.optional input____.id ), ( "text", encodeModelSubscriptionStringInput |> Encode.optional input____.text ), ( "contributorId", encodeModelSubscriptionStringInput |> Encode.optional input____.contributorId ), ( "contributionDatetime", encodeModelSubscriptionStringInput |> Encode.optional input____.contributionDatetime ), ( "and", (encodeModelSubscriptionQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.and ), ( "or", (encodeModelSubscriptionQuestionFilterInput |> Encode.maybe |> Encode.list) |> Encode.optional input____.or ) ]
 
 
 buildModelSubscriptionStringInput :
@@ -768,9 +776,9 @@ buildUpdateQuestionInput required____ fillOptionals____ =
     let
         optionals____ =
             fillOptionals____
-                { text = Absent, contributorId = Absent }
+                { text = Absent, contributorId = Absent, contributionDatetime = Absent }
     in
-    { id = required____.id, text = optionals____.text, contributorId = optionals____.contributorId }
+    { id = required____.id, text = optionals____.text, contributorId = optionals____.contributorId, contributionDatetime = optionals____.contributionDatetime }
 
 
 type alias UpdateQuestionInputRequiredFields =
@@ -780,6 +788,7 @@ type alias UpdateQuestionInputRequiredFields =
 type alias UpdateQuestionInputOptionalFields =
     { text : OptionalArgument String
     , contributorId : OptionalArgument String
+    , contributionDatetime : OptionalArgument Api.ScalarCodecs.AWSDateTime
     }
 
 
@@ -789,6 +798,7 @@ type alias UpdateQuestionInput =
     { id : Api.ScalarCodecs.Id
     , text : OptionalArgument String
     , contributorId : OptionalArgument String
+    , contributionDatetime : OptionalArgument Api.ScalarCodecs.AWSDateTime
     }
 
 
@@ -797,4 +807,4 @@ type alias UpdateQuestionInput =
 encodeUpdateQuestionInput : UpdateQuestionInput -> Value
 encodeUpdateQuestionInput input____ =
     Encode.maybeObject
-        [ ( "id", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) input____.id |> Just ), ( "text", Encode.string |> Encode.optional input____.text ), ( "contributorId", Encode.string |> Encode.optional input____.contributorId ) ]
+        [ ( "id", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) input____.id |> Just ), ( "text", Encode.string |> Encode.optional input____.text ), ( "contributorId", Encode.string |> Encode.optional input____.contributorId ), ( "contributionDatetime", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecAWSDateTime) |> Encode.optional input____.contributionDatetime ) ]
